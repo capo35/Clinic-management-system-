@@ -5,7 +5,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "STDTypesAnd_defs.h"
+#include <ctype.h>
+#include <string.h>
+#include "STDTypesAnd_defs.h" 
+   
+    /*
+        * liked list and all functions declarations 
+    */
 
  u16 count=0;     
  u32 resrves[5]={0};     //!    Used in reserve               
@@ -31,23 +37,29 @@ void insert (){
     printf("enter id\n");
     scanf("%d",&id_test);
     if(no_in_first++)
-        if(search(id_test)>=0){
-            printf("user already added\n");
-            return;}    
+    if(search(id_test) >= 0){
+        printf("user already added\n");
+        return;
+    }    
     link add=(link)malloc(sizeof(node));
     assert(add);
     printf("enter patient name , age , gender \n");
     getchar();
     scanf("%[^\n]",&(add->name));
     scanf("%d",&(add->age));
+    do{                                           //# to avoid any wrong input from user
+    printf("Gender ONLY ( Male Or Female )\n");    
     getchar();
-    scanf("%s",&(add->gender));
+    scanf("%9s",&(add->gender)); 
+    upper((add->gender));
+    } while (strcmp(add->gender, "MALE") != 0 && strcmp(add->gender, "FEMALE") != 0); 
     add->id=id_test; // scanf("%d",&(add->id));
     fflush(stdin);
     if(!head)
         head=add;
-    else { for(current=head;current->next;current=current->next){}
-            current->next=add;}
+    else{ for(current=head;current->next;current=current->next){}
+            current->next=add;
+        }
     add->next=NULL;
     tail=add;
 }
@@ -66,23 +78,23 @@ return true;
 bool next (u8 * namee , u8 *agee , u8 *ganderr ,s32 * id){
     assert(current);
     if(!current->next) return false;
-    current=current->next;
-    *namee=current->name;
-    *agee=current->age;
-    *ganderr=current->gender;
-    *id=current->id;
+    current = current->next;
+    *namee = current->name;
+    *agee = current->age;
+    *ganderr = current->gender;
+    *id = current->id;
     return true;
 }
 
 int search (s32 id){ 
-    assert(head);
-        int n=0;
+    //assert(head);
+        int n = 0;
         if(!head){
             printf("list is empty\n");
             return -1;
         } 
-        for(ptrSearch =head ; ptrSearch; ptrSearch=ptrSearch->next){
-            if(ptrSearch->id==id){
+        for(ptrSearch =head ; ptrSearch ; ptrSearch=ptrSearch->next){
+            if(ptrSearch->id == id){
                 return n;  
             }
             n++;
@@ -106,9 +118,13 @@ void update(s32 n){
     getchar();
     scanf("%[^\n]",&(ptrSearch->name));
     scanf("%d",&(ptrSearch->age));
+    do{                                           //# to avoid any wrong input from user
+    printf("Gender ONLY ( Male Or Female )\n");    
     getchar();
-    scanf("%s",&(ptrSearch->gender));
-    // scanf("%d",add->id);
+    scanf("%9s",&(ptrSearch->gender)); 
+    upper((ptrSearch->gender));
+    } while ( strcmp(ptrSearch->gender, "MALE") != 0 && strcmp(ptrSearch->gender, "FEMALE") != 0);
+    // scanf("%d",ptrSearch->id);
     printf("Updated!\n");
     }
 }
@@ -122,14 +138,14 @@ void Reserve(s32 n){
         if(resrves[i])
             continue;
         else
-            printf("%d : %fpm to %fpm\n",i+1,time_format1(i),time_format2(i)); 
+            printf("-> %d : %gpm to %gpm\n",i+1,time_format1(i),time_format2(i)); 
         }       
         do{
-            printf("choose one\n");
+            printf("Choose one\n");
             scanf("%d",&res);
-            } while(res<1 || res>5); // ! fe moshkela 7ana law 1,2,4 --> 3,5 !!!
+            }while(res<1 || res>5); // ! fe moshkela 7ana law 1,2,4 --> 3,5 !!!
             printf("DONE!\n");
-            resrves[res-1]=ptrSearch->id;
+            resrves[res-1] = ptrSearch->id;
             count++;    
         }
 }
@@ -141,12 +157,12 @@ void show_Reserves(){
             continue;
         else
             printf("patient id :%d\n",resrves[i]);
-            printf("%d : %fpm to %fpm\n",i+1,time_format1(i),time_format2(i));
+            printf("-> %d : %gpm to %gpm\n",i+1,time_format1(i),time_format2(i));
         }  
 }
 void cancel(s32 n){
     for(u8 i =0 ;i<5 ; i++){ 
-        if(resrves[i]==ptrSearch->id){
+        if(resrves[i] ==ptrSearch->id){
             resrves[i]=0;
             count--;
             printf("canceld!\n");
@@ -158,15 +174,15 @@ bool delete_Patient(int n){
         if(n<0) return false;
         current=head;
         for(int i=1 ; i<n ;i++)
-            current=current->next;
+            current =current->next;
         if(n)    
-            current->next=ptrSearch->next;
+            current->next =ptrSearch->next;
         else{
-            current=ptrSearch->next;
-            head=current;
+            current =ptrSearch->next;
+            head =current;
         }    
-        if(ptrSearch->next==NULL)
-            tail=current;
+        if(ptrSearch->next ==NULL)
+            tail =current;
         free (ptrSearch);
         return true;    
     }
@@ -174,10 +190,15 @@ bool delete_Patient(int n){
         assert(head);
         if(!head){
             printf("list is empty !\n");
-        return;}
+        return;
+        }
         for(link ptr =head ; ptr ; ptr=ptr->next){
             printf("Name : %s\nAge : %d\nGender : %s\nID : %d\n",ptr->name,ptr->age,ptr->gender,ptr->id);
         }
+    }
+    void upper(u8 *str){
+    for (u8 i = 0; str[i] != '\0'; i++)
+        str[i] = toupper(str[i]);
     }    
 void free_del(){  
     for(link ptr =head ; ptr ; ptr=ptr->next){

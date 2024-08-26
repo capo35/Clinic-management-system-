@@ -43,10 +43,9 @@ int main(){
 
              default:printf("enter a num bettwen 1-2 and 0 for ESC\n");
                 break;
-             }
+            }
                 
             }
-        
         }
         break;
 
@@ -123,10 +122,10 @@ int main(){
         }
         break;
     default: 
-        printf("INVALID NUMBER !\n");
+        printf("INVALID MODE 0-1 ONLY !!\n");
         break;
     }
     }
     free_del(); //! used to free up memory .
     return 0;
-}
+}   

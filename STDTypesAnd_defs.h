@@ -16,7 +16,7 @@ typedef double f64;
 #endif
 #include <stdio.h>
 #define print_AdminCases do{ \
-    printf("*************************************&&******************************************\n\
+        printf("*************************************&&******************************************\n\
             For Add new patient : 1\n\
             For Edit patient record : 2\n\
             For Reserve a slot with the doctor : 3\n\
@@ -28,16 +28,16 @@ typedef double f64;
             For EXITE PRESS 0\n");} while (0)
 #define print_UserCases do{  \
         printf("*************************************&&******************************************\n\
-        For View patient record : 1\n\
-        For View todays reservations : 2\n\
-        For EXITE PRESS 0\n");} while (0) 
+             For View patient record : 1\n\
+             For View todays reservations : 2\n\
+             For EXITE PRESS 0\n");} while (0) 
         
 #define time_format1(i) (2.0+0.5*i)
 #define time_format2(i) (2.5+0.5*i)
 
 
 //! functions prototypes
-void insert ();
+void insert (); // insert data for patient and check first if it exists or not 
 bool first(u8 * namee , u8 *agee , u8 *ganderr ,s32 * id);
 bool next(u8 * namee , u8 *agee , u8 *ganderr ,s32 * id);
 int search (s32 id); // search for patient by id
@@ -49,3 +49,4 @@ void cancel(s32 n);     // cancel reserves
 bool delete_Patient(int n); // delete patient 
 void displayAll();  // display all students
 void free_del();    // free memory
+

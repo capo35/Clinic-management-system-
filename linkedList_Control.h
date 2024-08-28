@@ -14,7 +14,8 @@
     */
 
  u16 count=0;     
- u32 resrves[5]={0};     //!    Used in reserve               
+ u32 resrves[5]={0};     //!    Used in reserves solts..
+ u32 resrves_index[5]={0};  //! comtainer to hold solts time and numbers ..             
 typedef struct {
     u8 name [100];
     u8 age;
@@ -139,12 +140,15 @@ void Reserve(s32 n){
             continue;
         else
             printf("-> %d : %gpm to %gpm\n",i+1,time_format1(i),time_format2(i)); 
-        }       
+        }
+        if(count==5) 
+        return ;       
         do{
-            printf("Choose one\n");
+            printf("Choose from available slots : ");
             scanf("%d",&res);
-            }while(res<1 || res>5); // ! fe moshkela 7ana law 1,2,4 --> 3,5 !!!
+            }while((res<1 || res>5) || resrves_index[res-1]); 
             printf("DONE!\n");
+            resrves_index[res-1] =res;
             resrves[res-1] = ptrSearch->id;
             count++;    
         }
@@ -166,7 +170,8 @@ void cancel(s32 n){
             resrves[i]=0;
             count--;
             printf("canceld!\n");
-            return;}
+            return;
+            }
             printf("not reserved yet !\n");
     }
 }
